@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CreditCardImpl implements CreditCardService {
     @Autowired
@@ -25,5 +27,27 @@ public class CreditCardImpl implements CreditCardService {
     @Override
     public Mono<CreditCard> save(CreditCard creditCard) {
         return creditCardRepository.save(creditCard);
+    }
+
+    @Override
+    public Mono<CreditCard> updateCreditCard(CreditCard creditCard, String idCreditCard) {
+
+        return creditCardRepository.findById(idCreditCard)
+                .flatMap(currentCreditCard -> {
+                    currentCreditCard.setMainAccount(creditCard.getMainAccount());
+                    currentCreditCard.setAdditionalAccounts(creditCard.getAdditionalAccounts());
+                    currentCreditCard.setAvailableCredit(creditCard.getAvailableCredit());
+                    currentCreditCard.setAmountConsumed(creditCard.getAmountConsumed());
+                    currentCreditCard.setUpdateDatetime(LocalDateTime.now());
+                    return creditCardRepository.save(currentCreditCard);
+                    //Edición del resto de campos deshabilitada por relación e identidad
+                });
+    }
+
+    @Override
+    public Mono<CreditCard> deleteCreditCard(String idCreditCard) {
+        return creditCardRepository.findById(idCreditCard)
+                .flatMap(existingCreditCard -> creditCardRepository.delete(existingCreditCard)
+                        .then(Mono.just(existingCreditCard)));
     }
 }

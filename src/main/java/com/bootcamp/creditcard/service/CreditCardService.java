@@ -10,4 +10,8 @@ public interface CreditCardService {
     Mono<CreditCard> findById(String id);
 
     Mono<CreditCard> save(CreditCard creditCard);
+
+    Mono<CreditCard> updateCreditCard(CreditCard creditCard, String idCreditCard);
+
+    Mono<CreditCard> deleteCreditCard(String idCreditCard);
 }

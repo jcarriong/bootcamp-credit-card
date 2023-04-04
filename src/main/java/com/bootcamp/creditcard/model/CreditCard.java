@@ -17,10 +17,10 @@ import java.util.List;
 public class CreditCard extends BaseAuditDto{
 
     @Id
-    private String id_credit_card;
-    private String id_product;
-    private String id_customer;
-    private String main_account; //numero de cuenta (14 digits)
+    private String idCreditCard;
+    private String idProduct;
+    private String idCustomer;
+    private String mainAccount; //numero de cuenta (14 digits)
     private List<String> additionalAccounts; //cuentas externas de otros bancos
     private Float availableCredit; //saldo disponible
     private Float amountConsumed; //monto consumido
